@@ -1,0 +1,9 @@
+<h1><%= @author %></h1>
+
+<% @songs.each do |song| %>
+  <div class="song">
+  <h3>Title: <%= song.title %></h3>
+<% end %>
+
+<hr/>
+<a href="/songs">Back to all songs</a>

@@ -3,10 +3,17 @@
     Artist: <%= @song.author %>
   </p>
   <p>
+    <a href="/songs_by?author=<%= @song.author %>">Show all songs by this artist</a>
+  </p>
+  <p>
+    Visit them on the web: <a href="<%= @song.url %>"><%= @song.url %></a>
+  </p>
+  <p>
     Created at: <%= @song.created_at %>
   </p>
   <p>
-  Updated at: <%= @song.updated_at %>
+    Updated at: <%= @song.updated_at %>
   </p>
+
 <hr/>
 <a href="/songs">Back to all songs</a>
