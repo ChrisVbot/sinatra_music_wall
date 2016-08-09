@@ -12,6 +12,16 @@ def current_user
 end
 
 
+#helper method to get the name of user who added songs
+def get_user_name(song)
+  @get_user = User.where(id: song.user_id)
+    if @get_user[0]
+      @get_user[0].username
+    else
+      "Unknown"
+    end
+end
+
 get '/' do
   erb :index
 end
@@ -50,7 +60,7 @@ post '/songs' do
     if @song.save
       redirect '/songs'
     else
-    erb :'songs/new'
+      erb :'songs/new'
     end
   else
       flash[:must_be_logged_in] = "You must be logged in to submit songs."
@@ -85,10 +95,9 @@ post '/users' do
   end
 end
 
-#creates session correlated with @user's id on line 82. 
 post '/login' do
   @user = User.where(username: params[:username]).where(password: params[:password])
-    #checks that user exists by verifying the length of array is > 0
+    #checks that user exists by verifying the length of items in array is > 0
     # binding.pry
     if @user.length > 0
       session[:cookie_name] = @user[0].id
