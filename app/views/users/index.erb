@@ -1,0 +1,10 @@
+<div class="jumbotron">
+  <h1>All users <small>please don't steal passwords!</small></h1>
+</div>
+<div class="container">
+<% @users.each do |user| %>
+  <div class="well">
+  <h3>Username: <%= user.username %> || Password: <%= user.password %></small></h3>
+  </div>
+<% end %>
+</div>

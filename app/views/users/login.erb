@@ -1,0 +1,16 @@
+
+<div class="container">
+  <form method="post" action="/login">
+    <div>
+      <label>Enter your username: </label>
+      <input type="text" class="form-group" name="username" value="<%= @user.username %>">
+    </div>
+    <div>
+      <label>Enter your password: </label>
+      <input type="text" class="form-group" name="password" value="<%= @user.password %>">
+    </div>
+    <div>
+      <input type="submit" class="btn btn-default" name="submit">
+    </div>
+  </form>
+</div>

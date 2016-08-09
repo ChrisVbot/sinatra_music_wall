@@ -8,4 +8,24 @@
   </div>
 <% end %>
 </div>
-<a href="/songs/new">Post a new song!</a>
+
+
+<div class="container">
+  <% if current_user %>
+    <div>
+      <button type="button" class="btn btn-primary"><a href="/songs/new">Post a new song!</a></button>
+    </div>
+    <div>
+      <form method="post" action="/logout">
+        
+        <button type="submit" class="btn btn-primary" name="submit">Logout</button>
+      </form>
+    </div>  
+
+  <% else %>
+    <a href="/users/login"><button type="button" class="btn btn-primary">Click here to login</button></a>
+    <button type="button" class="btn btn-primary">Sign up for an account to upvote and submit songs</button>
+  <% end %>
+</div>
+
+
