@@ -6,7 +6,7 @@ class Song < ActiveRecord::Base
   validates :title, presence: true, length: {maximum: 100}
   validates :url, format: {with: URI.regexp}, allow_blank: true
 
-  after_save :update_last_song_added_at_field, if: :user
+  after_save :update_last_song_added_at_field
 
 
   def update_last_song_added_at_field

@@ -1,11 +1,14 @@
 # Homepage (Root path)
-enable :sessions
+
 
 # helper method to check for current user 
 
-def current_user 
+def current_user
    #session's user_id = user's id
-    @current_user = User.find_by(id: session[:user_id])
+    @current_user = @current_user ||
+      User.find_by(id: session[:cookie_name])
+    # binding.pry
+    # @current_user.username
 end
 
 
@@ -35,15 +38,23 @@ get '/songs_by' do
 end
 
 post '/songs' do
-  @song = Song.new(
-    title: params[:title],
-    author: params[:author],
-    url: params[:url]
-    )
-  if @song.save
-    redirect '/songs'
-  else
+  if 
+    current_user
+      @song = Song.new(
+      title: params[:title],
+      author: params[:author],
+      url: params[:url],
+      #just accessing the method and pulling the id from it. If no method currently exists, it will call the method here instead. 
+      user_id: current_user.id
+      )
+    if @song.save
+      redirect '/songs'
+    else
     erb :'songs/new'
+    end
+  else
+      flash[:must_be_logged_in] = "You must be logged in to submit songs."
+      redirect '/songs/new'
   end
 end
 
@@ -74,20 +85,24 @@ post '/users' do
   end
 end
 
+#creates session correlated with @user's id on line 82. 
 post '/login' do
   @user = User.where(username: params[:username]).where(password: params[:password])
+    #checks that user exists by verifying the length of array is > 0
+    # binding.pry
     if @user.length > 0
-      session[:user_id] = @user[0].id
-      puts session[:user_id]
-      # create session with @user's id
+      session[:cookie_name] = @user[0].id
+      puts session[:cookie_name]
+      flash[:notice] = "Thanks for logging in, #{@user[0].username}!"
+      redirect '/songs'
     else 
-      # redirect // did you mean to create
+      flash[:fail] = "Incorrect username or password! Please try again."
+      redirect 'users/login'
     end
-  redirect '/songs'
 end
 
 post '/logout' do
-  session[:user_id] = nil
+  session[:cookie_name] = nil
   redirect '/songs'
 end
   

@@ -31,6 +31,8 @@ GEM
       slop (~> 3.4)
     puma (2.15.3)
     rack (1.6.4)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -80,6 +82,7 @@ DEPENDENCIES
   pg
   pry
   puma
+  rack-flash3
   rake
   shotgun
   sinatra

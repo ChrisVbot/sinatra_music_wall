@@ -1,30 +1,34 @@
+<div id='flash' class='notice'>
+ <%= flash[:notice] %>
+</div>
+
+
 <div class="jumbotron">
   <h1>All songs and artists <small>submitted by users!</small></h1>
 </div>
 <div class="container">
 <% @songs.each do |song| %>
   <div class="well">
-  <h3>Title: <a href="songs/<%= song.id %>"><%= song.title %><small></a> (artist: <%= song.author %>)</small></h3>
+  <h3>Title: <a href="songs/<%= song.id %>"><%= song.title %><small></a> (artist: <%= song.author %>)(added by: <%= song.user_id %>)</small></h3>
   </div>
 <% end %>
 </div>
 
 
 <div class="container">
+  <!--#checks if current_user? method returns true which indicates the current user is loged in # -->
   <% if current_user %>
     <div>
       <button type="button" class="btn btn-primary"><a href="/songs/new">Post a new song!</a></button>
     </div>
     <div>
-      <form method="post" action="/logout">
-        
+      <form method="post" action="/logout"> 
         <button type="submit" class="btn btn-primary" name="submit">Logout</button>
       </form>
     </div>  
-
   <% else %>
     <a href="/users/login"><button type="button" class="btn btn-primary">Click here to login</button></a>
-    <button type="button" class="btn btn-primary">Sign up for an account to upvote and submit songs</button>
+    <a href="/users/new"><button type="button" class="btn btn-primary">Sign up for an account to upvote and submit songs</button></a>
   <% end %>
 </div>
 
