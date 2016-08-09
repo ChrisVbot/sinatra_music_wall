@@ -1,7 +1,3 @@
-<div id='flash' class='notice'>
- <%= flash[:notice] %>
-</div>
-
 
 <div class="jumbotron">
   <h1>All songs and artists <small>submitted by users!</small></h1>
@@ -10,15 +6,14 @@
 <div class="container">
 <% @songs.each do |song| %>
   <div class="well">
-    <h3>Title: <a href="songs/<%= song.id %>"><%= song.title %><small></a> (artist: <%= song.author %>)(added by user: <%=get_user_name(song) %>)</small></h3>
-  <!-- SELECT username FROM users JOIN songs ON songs.user_id = users.id -->
+    <h3>Title: <a href="songs/<%= song.id %>"><%= song.title %><small></a> (artist: <%= song.author %>)(added by: <%=get_user_name(song) %>)</small></h3>
   </div>
 <% end %>
 </div>
 
 
 <div class="container">
-  <!--#checks if current_user method returns a value which indicates the current user is loged in # -->
+  <!--#checks if current_user method returns a value which indicates the current user is logged in # -->
   <% if current_user %>
     <div>
       <button type="button" class="btn btn-primary"><a href="/songs/new">Post a new song!</a></button>

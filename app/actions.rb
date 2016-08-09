@@ -1,26 +1,24 @@
 # Homepage (Root path)
 
 
-# helper method to check for current user 
+helpers do
+#helper method to check for current user based on session ID. The pipes mean we don't have to re-query the database if the user is already logged in. Common way to initialize values from a false condition the first time you've gone through it. 
+  def current_user
+    @current_user = @current_user || User.find_by(id: session[:cookie_name])
+  end
+  
+  #helper method to get the name of user who added songs in songs/index
+  def get_user_name(song)
+    @get_user = User.where(id: song.user_id)
+      if @get_user[0]
+        @get_user[0].username
+      else
+        "Unknown"
+      end
+  end
 
-def current_user
-   #session's user_id = user's id
-    @current_user = @current_user ||
-      User.find_by(id: session[:cookie_name])
-    # binding.pry
-    # @current_user.username
 end
 
-
-#helper method to get the name of user who added songs
-def get_user_name(song)
-  @get_user = User.where(id: song.user_id)
-    if @get_user[0]
-      @get_user[0].username
-    else
-      "Unknown"
-    end
-end
 
 get '/' do
   erb :index
@@ -63,7 +61,7 @@ post '/songs' do
       erb :'songs/new'
     end
   else
-      flash[:must_be_logged_in] = "You must be logged in to submit songs."
+      flash[:notice] = "You must be logged in to submit songs."
       redirect '/songs/new'
   end
 end
@@ -105,7 +103,7 @@ post '/login' do
       flash[:notice] = "Thanks for logging in, #{@user[0].username}!"
       redirect '/songs'
     else 
-      flash[:fail] = "Incorrect username or password! Please try again."
+      flash[:notice] = "Incorrect username or password! Please try again."
       redirect 'users/login'
     end
 end
