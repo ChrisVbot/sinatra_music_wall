@@ -5,8 +5,19 @@
 
 <div class="container">
 <% @songs.each do |song| %>
-  <div class="well">
+  <div class="well"> 
+      <!-- -->
     <h3>Title: <a href="songs/<%= song.id %>"><%= song.title %><small></a> (artist: <%= song.author %>)(added by: <%=get_user_name(song) %>)</small></h3>
+    <% if current_user && !current_user.has_already_upvoted?(song) %>
+      <form method="post" action="/upvote">
+        <div>
+          <input type="hidden" name="song_id" value="<%= song.id %>">
+          <input type="submit" class="btn btn-default" value="Upvote!">
+        </div>
+      </form>
+    <% else %>
+      <p>Upvotes: <%= song.upvotes.count %></p> 
+    <% end %>
   </div>
 <% end %>
 </div>

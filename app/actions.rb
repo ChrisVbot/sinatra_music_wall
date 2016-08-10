@@ -112,6 +112,16 @@ post '/logout' do
   session[:cookie_name] = nil
   redirect '/songs'
 end
+
+post '/upvote' do
+    #Upvote table references both songs and users to keep track of upvotes. This allows users to only be able to vote once per song. 
+    Upvote.create(user_id: session[:cookie_name], song_id: params[:song_id])
+    flash[:notice] = "Thanks for voting!"
+    redirect '/songs'
+  # else
+  #   flash[:notice] = "You must be logged in to upvote."
+  # end
+end
   
 
 
