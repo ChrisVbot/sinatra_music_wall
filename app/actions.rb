@@ -25,18 +25,18 @@ get '/' do
 end
 
 #The 0- is so that is will be ordered correctly in descending order. Upvotes belong to songs(and users), so it is able to count the number of upvotes 
-get '/songs' do
+get '/songs/?' do
   @songs = Song.all.sort_by { |a| 0-a.upvotes.count }
   # binding.pry
   erb :'songs/index'
 end
 
-get '/songs/new' do
+get '/songs/new/?' do
   @song = Song.new
   erb :'songs/new'
 end
 
-get '/songs/:id' do
+get '/songs/:id/?' do
   @song = Song.find params[:id]
   erb :'songs/show'
 end
@@ -47,7 +47,7 @@ get '/songs_by' do
   erb :'songs/artist'
 end
 
-post '/songs' do
+post '/songs/?' do
   if 
     current_user
       @song = Song.new(
@@ -68,22 +68,22 @@ post '/songs' do
   end
 end
 
-get '/users' do
+get '/users/?' do
   @users = User.all
   erb :'users/index'
 end
 
-get '/users/new' do
+get '/users/new/?' do
   @user = User.new
   erb :'users/new'
 end
 
-get '/users/login' do
+get '/users/login/?' do
   @user = User.new
   erb :'users/login'
 end
 
-post '/users' do
+post '/users/?' do
   @user = User.new(
     username: params[:username],
     password: params[:password]
@@ -95,7 +95,7 @@ post '/users' do
   end
 end
 
-post '/login' do
+post '/login/?' do
   @user = User.where(username: params[:username]).where(password: params[:password])
     #checks that user exists by verifying the length of items in array is > 0
     # binding.pry
@@ -125,7 +125,17 @@ post '/upvote' do
   # end
 end
   
-
+post '/review' do
+  if current_user
+    @review = Review.create(review: params[:review], user_id: session[:cookie_name], song_id: params[:song_id])
+    if @review.save
+      redirect '/songs'
+      flash[:notice] = "Thanks for the review!"
+    else
+      redirect '/songs'
+    end
+  end
+end
 
 
 

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :songs
   has_many :upvotes
+  has_many :reviews
 
   validates :username, presence: true, length:{minimum:5}
   validates :password, presence: true
@@ -9,6 +10,12 @@ class User < ActiveRecord::Base
   def has_already_upvoted?(song)
     upvotes.any? do |upvote|
       upvote.song_id == song.id
+    end
+  end
+
+  def has_already_reviewed?(song)
+    reviews.any? do |review|
+      review.song_id == song.id
     end
   end
 

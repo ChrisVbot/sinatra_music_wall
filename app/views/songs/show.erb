@@ -19,3 +19,17 @@
 </div>
 <hr/>
 <a href="/songs">Back to all songs</a>
+
+<div>
+  <% if current_user && !current_user.has_already_reviewed?(@song) %>
+    <div class="container">
+      <form method="post" action="/review">
+        <div>
+          <label>What's your review?: </label>
+          <input type="hidden" name="song_id" value="<%= @song.id %>">
+          <input type="text" class="form-group" name="review" value="<%= @review %>">
+        </div>
+      </form>
+    </div>
+  <% end %>
+</div>
