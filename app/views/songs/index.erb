@@ -13,6 +13,7 @@
         <div>
           <input type="hidden" name="song_id" value="<%= song.id %>">
           <input type="submit" class="btn btn-default" value="Upvote!">
+          <p>Upvotes: <%= song.upvotes.count %></p>
         </div>
       </form>
     <% else %>

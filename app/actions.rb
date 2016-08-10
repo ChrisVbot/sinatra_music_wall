@@ -24,8 +24,10 @@ get '/' do
   erb :index
 end
 
+#The 0- is so that is will be ordered correctly in descending order. Upvotes belong to songs(and users), so it is able to count the number of upvotes 
 get '/songs' do
-  @songs = Song.all
+  @songs = Song.all.sort_by { |a| 0-a.upvotes.count }
+  # binding.pry
   erb :'songs/index'
 end
 
