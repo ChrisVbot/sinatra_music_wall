@@ -7,9 +7,9 @@ helpers do
     @current_user = @current_user || User.find_by(id: session[:cookie_name])
   end
   
-  #helper method to get the name of user who added songs in songs/index
-  def get_user_name(song)
-    @get_user = User.where(id: song.user_id)
+  #helper method to get the name of any given user
+  def get_user_name(input)
+    @get_user = User.where(id: input.user_id)
       if @get_user[0]
         @get_user[0].username
       else
@@ -129,10 +129,11 @@ post '/review' do
   if current_user
     @review = Review.create(review: params[:review], user_id: session[:cookie_name], song_id: params[:song_id])
     if @review.save
-      redirect '/songs'
+      redirect '/songs/' + params[:song_id]
       flash[:notice] = "Thanks for the review!"
     else
-      redirect '/songs'
+      flash[:notice] = "Reviews can't be blank"
+      redirect '/songs/' + params[:song_id]
     end
   end
 end

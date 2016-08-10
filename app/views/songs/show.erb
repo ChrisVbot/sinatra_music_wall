@@ -17,6 +17,20 @@
     Updated at: <%= @song.updated_at %>
   </p>
 </div>
+
+<div>
+  <!-- Uses helper method to match review id with user_id -->
+  <% Review.where(song_id: @song.id).find_each do |review| %>
+    <h5>Review by: <%= get_user_name(review) %> posted on <%= review.created_at %></h5>
+    <h4><%= review.review %></h4>
+  <% end %>
+  <% if !current_user %>
+    <p>Want to leave a review? Login below!</p>
+    <a href="/users/login"><button type="button" class="btn btn-primary">Click here to login</button></a>
+    <a href="/users/new"><button type="button" class="btn btn-primary">Sign up for an account to upvote, submit songs, and review songs</button></a>
+  <% end %>
+</div>
+
 <hr/>
 <a href="/songs">Back to all songs</a>
 
@@ -33,3 +47,5 @@
     </div>
   <% end %>
 </div>
+
+
